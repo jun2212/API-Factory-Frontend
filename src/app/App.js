@@ -17,10 +17,9 @@ function App() {
         <Global />
         <NavBar />
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<CreateFunction />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/CreateFunction" element={<CreateFunction />} />
           <Route path="/Guide" element={<Guide />} />
           <Route path="/*" element={<NotFound />} />
         </Routes>
