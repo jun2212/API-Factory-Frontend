@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import styled, { createGlobalStyle } from "styled-components";
 
 import { Login } from "../pages/Login/Login";
+import { CreateFunction } from "../pages/CreateFunction/CreateFunction";
+import { Guide } from "../pages/Guide/Guide";
 import { NotFound } from "../pages/NotFound/NotFound";
 
 function App() {
@@ -12,6 +14,8 @@ function App() {
         <Global />
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route path="/CreateFunction" element={<CreateFunction />} />
+          <Route path="/Guide" element={<Guide />} />
           <Route path="/*" element={<NotFound />} />
         </Routes>
       </Router>
