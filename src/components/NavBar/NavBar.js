@@ -1,32 +1,50 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { COLOR } from "../../config/constants";
 
 function NavBar() {
+  const navigate = useNavigate();
   const { pathname } = useLocation();
+
+  const moveLoginPage = () => {
+    navigate("/login");
+  };
+
+  const moveRegisterPage = () => {
+    navigate("/register");
+  };
+
+  const moveGuidePage = () => {
+    navigate("/guide");
+  };
+
+  const moveMainPage = () => {
+    navigate("/");
+  };
 
   return (
     <Wrapper>
       <Logo>API FACTORY</Logo>
       <ButtonWrapper>
-        {pathname === "/login" ? (
-          <Button>REGISTER</Button>
-        ) : pathname === "/register" ? (
-          <Button>LOGIN</Button>
-        ) : pathname === "/" ? (
+        {pathname === "/" && (
           <>
-            <Button>GUIDE</Button>
+            <Button onClick={moveGuidePage}>GUIDE</Button>
             <Button>LOGOUT</Button>
           </>
-        ) : pathname === "/guide" ? (
+        )}
+        {pathname === "/guide" && (
           <>
-            <Button>MAIN</Button>
+            <Button onClick={moveMainPage}>MAIN</Button>
             <Button>LOGOUT</Button>
           </>
-        ) : (
-          <Button>MAIN</Button>
+        )}
+        {pathname === "/login" && (
+          <Button onClick={moveRegisterPage}>REGISTER</Button>
+        )}
+        {pathname === "/register" && (
+          <Button onClick={moveLoginPage}>LOGIN</Button>
         )}
       </ButtonWrapper>
     </Wrapper>
