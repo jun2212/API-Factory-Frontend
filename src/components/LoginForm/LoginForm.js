@@ -7,8 +7,8 @@ function LoginForm() {
   return (
     <LoginWrapper>
       <Title>LOGIN</Title>
-      <StyledInput placeholder=" 아이디"></StyledInput>
-      <StyledInput placeholder=" 비밀번호"></StyledInput>
+      <StyledInput placeholder=" 아이디" type="text"></StyledInput>
+      <StyledInput placeholder=" 비밀번호" type="password"></StyledInput>
       <Message>ID or password does not match</Message>
       <Button>LOGIN</Button>
     </LoginWrapper>
@@ -37,6 +37,8 @@ const StyledInput = styled.input`
   height: 2rem;
   border: none;
   margin: 2rem;
+  font-size: 1.2rem;
+  letter-spacing: 0.1rem;
 `;
 
 const Message = styled.span`

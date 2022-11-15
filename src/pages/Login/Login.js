@@ -5,11 +5,9 @@ import { LoginForm } from "../../components/LoginForm/LoginForm";
 
 function Login() {
   return (
-    <>
-      <ContentsWrapper>
-        <LoginForm />
-      </ContentsWrapper>
-    </>
+    <ContentsWrapper>
+      <LoginForm />
+    </ContentsWrapper>
   );
 }
 

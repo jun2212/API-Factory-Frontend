@@ -7,9 +7,9 @@ function RegisterForm() {
   return (
     <RegisterWrapper>
       <Title>REGISTER</Title>
-      <StyledInput placeholder=" 아이디"></StyledInput>
-      <StyledInput placeholder=" 비밀번호"></StyledInput>
-      <StyledInput placeholder=" 비밀번호 확인"></StyledInput>
+      <StyledInput placeholder=" 아이디" type="text"></StyledInput>
+      <StyledInput placeholder=" 비밀번호" type="password"></StyledInput>
+      <StyledInput placeholder=" 비밀번호 확인" type="password"></StyledInput>
       <Message>The two passwords do not match</Message>
       <Button>REGISTER</Button>
     </RegisterWrapper>
@@ -38,6 +38,8 @@ const StyledInput = styled.input`
   height: 2rem;
   border: none;
   margin: 1rem;
+  font-size: 1.2rem;
+  letter-spacing: 0.1rem;
 `;
 
 const Message = styled.span`
