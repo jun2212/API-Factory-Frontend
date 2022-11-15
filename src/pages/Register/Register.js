@@ -1,13 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 
-import { LoginForm } from "../../components/LoginForm/LoginForm";
+import { RegisterForm } from "../../components/RegisterForm/RegisterForm";
 
-function Login() {
+function Register() {
   return (
-    <ContentsWrapper>
-      <LoginForm />
-    </ContentsWrapper>
+    <>
+      <ContentsWrapper>
+        <RegisterForm />
+      </ContentsWrapper>
+    </>
   );
 }
 
@@ -18,4 +20,4 @@ const ContentsWrapper = styled.div`
   min-height: 90vh;
 `;
 
-export { Login };
+export { Register };
