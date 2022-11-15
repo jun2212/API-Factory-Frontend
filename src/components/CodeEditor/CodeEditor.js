@@ -1,14 +1,16 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 import Editor from "@monaco-editor/react";
 
 import { COLOR } from "../../config/constants";
 
-function CodeEditor() {
-  const editorRef = useRef(null);
-
-  function handleEditorDidMount(editor, monaco) {
+function CodeEditor({ editorRef, validateRef }) {
+  function handleEditorDidMount(editor) {
     editorRef.current = editor;
+  }
+  function handleEditorValidation(markers) {
+    validateRef.current = markers;
   }
 
   return (
@@ -21,6 +23,7 @@ function CodeEditor() {
           //your code..
         }"
         onMount={handleEditorDidMount}
+        onValidate={handleEditorValidation}
         theme="vs-dark"
         options={{
           fontSize: 15,
@@ -42,5 +45,16 @@ const EditorWrapper = styled.div`
   margin: 0 15rem;
   background-color: ${COLOR.GRAY};
 `;
+
+CodeEditor.propTypes = {
+  editorRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.elementType }),
+  ]),
+  validateRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.elementType }),
+  ]),
+};
 
 export { CodeEditor };
