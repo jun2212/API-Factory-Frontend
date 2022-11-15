@@ -9,6 +9,7 @@ function NavBar() {
 
   return (
     <Wrapper>
+      <Logo>API FACTORY</Logo>
       <ButtonWrapper>
         {pathname === "/login" ? (
           <Button>REGISTER</Button>
@@ -34,11 +35,22 @@ function NavBar() {
 
 const Wrapper = styled.div`
   display: flex;
-  justify-content: right;
+  justify-content: space-between;
   align-items: center;
-  height: 4rem;
+  height: 8vh;
   border: none;
   background: ${COLOR.BLACK};
+`;
+
+const Logo = styled.span`
+  color: ${COLOR.WHITE};
+  font-size: 1.2rem;
+  font-weight: 550;
+  margin-left: 6rem;
+
+  &:hover {
+    color: ${COLOR.BLUE};
+  }
 `;
 
 const ButtonWrapper = styled.div`
@@ -47,16 +59,15 @@ const ButtonWrapper = styled.div`
 `;
 
 const Button = styled.button`
-  margin-left: 2rem;
   padding: 0.3rem;
+  margin: 1rem;
   border: none;
   border-radius: 0.5rem;
-  width: 6rem;
+  width: 7rem;
   background: ${COLOR.WHITE};
   color: ${COLOR.BLACK};
   font-size: 1.2rem;
-  font-weight: bolder;
-  cursor: pointer;
+  font-weight: 550;
 
   &:hover {
     border-bottom: 2px solid black;
