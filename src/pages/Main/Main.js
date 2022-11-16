@@ -13,15 +13,30 @@ function Main() {
   const validateRef = useRef(null);
 
   const submitCode = () => {
-    setMessage(validationCode());
+    const userCode = editorRef.current.getValue();
+    const isValidated = validationCode(userCode);
     setIsModalOpen(true);
   };
-  const validationCode = () => {
+  const validationCode = (userCode) => {
+    setMessage("");
+    const indexOfFunctionName = userCode.indexOf("APIFunction");
+
     if (validateRef.current !== null && validateRef.current.length !== 0) {
-      return "함수의 형태가 잘못되었습니다.";
+      setMessage("함수의 형태가 잘못되었습니다.");
+      return false;
     }
-    return "전송완료";
+    if (
+      indexOfFunctionName === -1 ||
+      (userCode[indexOfFunctionName + 11] !== " " &&
+        userCode[indexOfFunctionName + 11] !== "(")
+    ) {
+      setMessage("함수 이름은 APIFunction 이어야 합니다.");
+      return false;
+    }
+
+    return true;
   };
+
   return (
     <>
       {isModalOpen && (
