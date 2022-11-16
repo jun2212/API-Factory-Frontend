@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import Editor from "@monaco-editor/react";
@@ -50,6 +50,7 @@ CodeEditor.propTypes = {
   editorRef: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.elementType }),
+    PropTypes.any,
   ]),
   validateRef: PropTypes.oneOfType([
     PropTypes.func,
