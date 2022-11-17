@@ -7,8 +7,11 @@ import { Register } from "../pages/Register/Register";
 import { Main } from "../pages/Main/Main";
 import { Guide } from "../pages/Guide/Guide";
 import { NotFound } from "../pages/NotFound/NotFound";
+import { Error } from "../pages/Error/Error";
 
 import { NavBar } from "../components/NavBar/NavBar";
+
+import { RequireAuth } from "../features/authState";
 
 function App() {
   return (
@@ -16,10 +19,25 @@ function App() {
       <Global />
       <NavBar />
       <Routes>
-        <Route path="/" element={<Main />} />
+        <Route
+          path="/"
+          element={
+            <RequireAuth>
+              <Main />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/Guide"
+          element={
+            <RequireAuth>
+              <Guide />
+            </RequireAuth>
+          }
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/Guide" element={<Guide />} />
+        <Route path="/error" element={<Error />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </Router>
