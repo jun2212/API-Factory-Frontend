@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { COLOR } from "../../config/constants";
+import { fetchUserData } from "../../utils/utils";
 
 function NavBar() {
   const navigate = useNavigate();
@@ -24,27 +25,37 @@ function NavBar() {
     navigate("/");
   };
 
+  const handleLogOut = async () => {
+    const { status, message } = await fetchUserData("/logout");
+    if (status === 200) {
+      navigate("/login");
+    } else {
+      navigate("/error", {
+        state: { status: status, message: message },
+      });
+    }
+  };
+
   return (
     <Wrapper>
       <Logo>API FACTORY</Logo>
       <ButtonWrapper>
-        {pathname === "/" && (
+        {pathname === "/" ? (
           <>
             <Button onClick={moveGuidePage}>GUIDE</Button>
-            <Button>LOGOUT</Button>
+            <Button onClick={handleLogOut}>LOGOUT</Button>
           </>
-        )}
-        {pathname === "/guide" && (
+        ) : pathname === "/guide" ? (
           <>
             <Button onClick={moveMainPage}>MAIN</Button>
-            <Button>LOGOUT</Button>
+            <Button onClick={handleLogOut}>LOGOUT</Button>
           </>
-        )}
-        {pathname === "/login" && (
+        ) : pathname === "/login" ? (
           <Button onClick={moveRegisterPage}>REGISTER</Button>
-        )}
-        {pathname === "/register" && (
+        ) : pathname === "/register" ? (
           <Button onClick={moveLoginPage}>LOGIN</Button>
+        ) : (
+          <Button onClick={moveMainPage}>MAIN</Button>
         )}
       </ButtonWrapper>
     </Wrapper>

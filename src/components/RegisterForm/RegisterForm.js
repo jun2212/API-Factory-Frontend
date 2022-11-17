@@ -1,17 +1,80 @@
 import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import { COLOR } from "../../config/constants";
+import { useInput, useValidationUserData } from "../../customHooks/customHooks";
+import { fetchUserData } from "../../utils/utils";
 
 function RegisterForm() {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  const userId = useInput("");
+  const password = useInput("");
+  const passwordConfirm = useInput("");
+
+  const [
+    idMessage,
+    passwordMessage,
+    setIdMessage,
+    setPasswordMessage,
+    validation,
+  ] = useValidationUserData();
+
+  const comparePassword = () => {
+    if (password.value !== passwordConfirm.value) {
+      setPasswordMessage("The two passwords do not match.");
+
+      return true;
+    }
+
+    return false;
+  };
+
+  const submitUserData = async () => {
+    setIdMessage("");
+    setPasswordMessage("");
+
+    if (validation(userId.value, password.value) || comparePassword()) {
+      return;
+    }
+
+    const { status, message } = await fetchUserData(
+      pathname,
+      userId.value,
+      password.value,
+    );
+
+    if (status === 400) {
+      setIdMessage(message);
+      return;
+    }
+    if (status === 500) {
+      setIdMessage(`${status} : ${message}`);
+      return;
+    }
+
+    navigate("/");
+  };
+
   return (
     <RegisterWrapper>
       <Title>REGISTER</Title>
-      <StyledInput placeholder=" 아이디" type="text"></StyledInput>
-      <StyledInput placeholder=" 비밀번호" type="password"></StyledInput>
-      <StyledInput placeholder=" 비밀번호 확인" type="password"></StyledInput>
-      <Message>The two passwords do not match</Message>
-      <Button>REGISTER</Button>
+      <StyledInput {...userId} placeholder=" ID" type="text"></StyledInput>
+      <Message>{idMessage}</Message>
+      <StyledInput
+        {...password}
+        placeholder=" Password"
+        type="password"
+      ></StyledInput>
+      <StyledInput
+        {...passwordConfirm}
+        placeholder=" Confirm Password"
+        type="password"
+      ></StyledInput>
+      <Message>{passwordMessage}</Message>
+      <Button onClick={submitUserData}>REGISTER</Button>
     </RegisterWrapper>
   );
 }

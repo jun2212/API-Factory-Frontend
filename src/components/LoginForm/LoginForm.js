@@ -1,16 +1,69 @@
 import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import { COLOR } from "../../config/constants";
+import { useInput, useValidationUserData } from "../../customHooks/customHooks";
+import { fetchUserData } from "../../utils/utils";
 
 function LoginForm() {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  const userId = useInput("");
+  const password = useInput("");
+
+  const [
+    idMessage,
+    passwordMessage,
+    setIdMessage,
+    setPasswordMessage,
+    validation,
+  ] = useValidationUserData();
+
+  const submitUserData = async () => {
+    setIdMessage("");
+    setPasswordMessage("");
+
+    if (validation(userId.value, password.value)) {
+      return;
+    }
+
+    const { status, message } = await fetchUserData(
+      pathname,
+      userId.value,
+      password.value,
+    );
+
+    if (status === 400) {
+      if (message.includes("Id")) {
+        setIdMessage(message);
+      } else {
+        setPasswordMessage(message);
+      }
+
+      return;
+    }
+    if (status === 500) {
+      setIdMessage(`${status} : ${message}`);
+
+      return;
+    }
+
+    navigate("/");
+  };
   return (
     <LoginWrapper>
       <Title>LOGIN</Title>
-      <StyledInput placeholder=" 아이디" type="text"></StyledInput>
-      <StyledInput placeholder=" 비밀번호" type="password"></StyledInput>
-      <Message>ID or password does not match</Message>
-      <Button>LOGIN</Button>
+      <StyledInput {...userId} placeholder=" ID" type="text"></StyledInput>
+      <Message>{idMessage}</Message>
+      <StyledInput
+        {...password}
+        placeholder=" Password"
+        type="password"
+      ></StyledInput>
+      <Message>{passwordMessage}</Message>
+      <Button onClick={submitUserData}>LOGIN</Button>
     </LoginWrapper>
   );
 }
