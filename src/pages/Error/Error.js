@@ -1,12 +1,19 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { COLOR } from "../../config/constants";
 
-function NotFound() {
+function Error() {
+  const location = useLocation();
+
+  const errorStatus = location.state?.status || "errorStatus";
+  const errorMessage = location.state?.message || "errorMessage";
+
   return (
     <ContentsWrapper>
       <ErrorWrapper>
-        <Title>404 NotFound</Title>
+        <Title>status : {errorStatus}</Title>
+        <Message>{errorMessage}</Message>
       </ErrorWrapper>
     </ContentsWrapper>
   );
@@ -37,4 +44,9 @@ const Title = styled.span`
   margin: 3rem;
 `;
 
-export { NotFound };
+const Message = styled.span`
+  color: ${COLOR.BLACK};
+  font-size: 1.2rem;
+`;
+
+export { Error };
