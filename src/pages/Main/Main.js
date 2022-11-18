@@ -2,27 +2,47 @@ import React, { useRef, useState } from "react";
 import styled from "styled-components";
 
 import { COLOR } from "../../config/constants";
+import { fetchUserData } from "../../utils/utils";
 
 import { CodeEditor } from "../../components/CodeEditor/CodeEditor";
 import { Modal } from "../../components/Modal/Modal";
 
 function Main() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [message, setMessage] = useState("");
+  const [modalMessage, setModalMessage] = useState({});
   const editorRef = useRef(null);
   const validateRef = useRef(null);
 
-  const submitCode = () => {
+  const submitCode = async () => {
     const userCode = editorRef.current.getValue();
     const isValidated = validationCode(userCode);
+
+    if (isValidated) {
+      const { status, message } = await fetchUserData("/save", {
+        userCode: userCode,
+      });
+      if (status === 400 || status === 500) {
+        setModalMessage({
+          title: `status : ${status}`,
+          content: message,
+        });
+      }
+      setModalMessage({
+        title: "저장 완료",
+        content: `Key : ${message}`,
+      });
+    }
     setIsModalOpen(true);
   };
   const validationCode = (userCode) => {
-    setMessage("");
+    setModalMessage("");
     const indexOfFunctionName = userCode.indexOf("APIFunction");
 
     if (validateRef.current !== null && validateRef.current.length !== 0) {
-      setMessage("함수의 형태가 잘못되었습니다.");
+      setModalMessage({
+        title: "입력 오류",
+        content: "함수의 형태가 잘못되었습니다.",
+      });
       return false;
     }
     if (
@@ -30,7 +50,10 @@ function Main() {
       (userCode[indexOfFunctionName + 11] !== " " &&
         userCode[indexOfFunctionName + 11] !== "(")
     ) {
-      setMessage("함수 이름은 APIFunction 이어야 합니다.");
+      setModalMessage({
+        title: "입력 오류",
+        content: "함수 이름은 APIFunction 이어야 합니다.",
+      });
       return false;
     }
 
@@ -42,8 +65,8 @@ function Main() {
       {isModalOpen && (
         <Modal
           closeModal={() => setIsModalOpen(false)}
-          title={"titleMessage"}
-          message={message}
+          title={modalMessage.title}
+          content={modalMessage.content}
         />
       )}
       <ContentsWrapper>
