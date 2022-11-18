@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { Portal } from "../Portal";
 import { COLOR } from "../../config/constants";
 
-function Modal({ closeModal, title, message }) {
+function Modal({ closeModal, title, content }) {
   return (
     <Portal>
       <Background
@@ -17,7 +17,7 @@ function Modal({ closeModal, title, message }) {
       >
         <Content>
           <Title>{title}</Title>
-          <Message>{message}</Message>
+          <Message>{content}</Message>
           <CloseButton onClick={closeModal}>확인</CloseButton>
         </Content>
       </Background>
@@ -103,7 +103,7 @@ const CloseButton = styled.div`
 Modal.propTypes = {
   closeModal: PropTypes.func.isRequired,
   title: PropTypes.string,
-  message: PropTypes.string,
+  content: PropTypes.string,
 };
 
 export { Modal };

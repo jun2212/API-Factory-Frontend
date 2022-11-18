@@ -29,11 +29,10 @@ function LoginForm() {
       return;
     }
 
-    const { status, message } = await fetchUserData(
-      pathname,
-      userId.value,
-      password.value,
-    );
+    const { status, message } = await fetchUserData(pathname, {
+      userId: userId.value,
+      password: password.value,
+    });
 
     if (status === 400) {
       if (message.includes("Id")) {
