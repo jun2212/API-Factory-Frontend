@@ -9,3 +9,6 @@ export const COLOR = {
   DEEP_BLUE: "#293744",
   PURPLE: "#471C8A",
 };
+
+export const defaultCode =
+  "function APIFunction() {\r\n" + "//your code...\r\n" + "\r\n" + "}";

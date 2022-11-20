@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import Editor from "@monaco-editor/react";
 
-import { COLOR } from "../../config/constants";
+import { COLOR, defaultCode } from "../../config/constants";
 
 function CodeEditor({ editorRef, validateRef }) {
   function handleEditorDidMount(editor) {
@@ -19,9 +19,7 @@ function CodeEditor({ editorRef, validateRef }) {
         width="50vw"
         height="60vh"
         defaultLanguage="javascript"
-        defaultValue="function APIFunction() {
-          //your code..
-        }"
+        defaultValue={defaultCode}
         onMount={handleEditorDidMount}
         onValidate={handleEditorValidation}
         theme="vs-dark"
@@ -48,13 +46,12 @@ const EditorWrapper = styled.div`
 
 CodeEditor.propTypes = {
   editorRef: PropTypes.oneOfType([
-    PropTypes.func,
     PropTypes.shape({ current: PropTypes.elementType }),
-    PropTypes.any,
+    PropTypes.object,
   ]),
   validateRef: PropTypes.oneOfType([
-    PropTypes.func,
     PropTypes.shape({ current: PropTypes.elementType }),
+    PropTypes.object,
   ]),
 };
 

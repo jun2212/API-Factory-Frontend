@@ -98,15 +98,13 @@ const Message = styled.span`
 `;
 
 const Button = styled.button`
-  display: flex;
-  align-items: center;
-  height: 3rem;
-  padding: 1rem;
+  padding: 0.7rem;
   margin-left: 30vw;
   margin-top: 5vh;
   margin-bottom: 5vh;
   border: none;
   border-radius: 30px;
+  width: 9rem;
   background: ${COLOR.BLUE};
   color: ${COLOR.WHITE};
   font-size: 1.3rem;
