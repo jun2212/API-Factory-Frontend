@@ -9,7 +9,7 @@ export const RequireAuth = ({ children }) => {
 
   useEffect(() => {
     (async () => {
-      const { status, message } = await fetchUserData("/isLogin");
+      const { status, message } = await fetchUserData("/isLoggedIn");
       if (status === 403) {
         return navigate("/login");
       }
