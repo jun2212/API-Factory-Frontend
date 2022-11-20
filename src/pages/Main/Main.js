@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 
-import { COLOR } from "../../config/constants";
+import { COLOR, defaultCode } from "../../config/constants";
 import { fetchUserData } from "../../utils/utils";
 
 import { CodeEditor } from "../../components/CodeEditor/CodeEditor";
@@ -24,7 +24,7 @@ function Main() {
     const isValidated = validation(code, name);
 
     if (isValidated) {
-      const { status, message } = await fetchUserData("/save", {
+      const { status, message } = await fetchUserData("/functionData", {
         method: SelectedMethod,
         name: name,
         code: code,
@@ -88,8 +88,8 @@ function Main() {
     return true;
   };
 
-  const handleSelect = (e) => {
-    setSelectedMethod(e.target.value);
+  const handleSelect = (event) => {
+    setSelectedMethod(event.target.value);
   };
 
   return (
@@ -112,7 +112,11 @@ function Main() {
           </Select>
           <Tip>자세한 사용법은 GUIDE를 참고해 주세요.</Tip>
         </TopWrapper>
-        <CodeEditor editorRef={editorRef} validateRef={validateRef} />
+        <CodeEditor
+          editorRef={editorRef}
+          validateRef={validateRef}
+          defaultCode={defaultCode}
+        />
         <BottomWrapper>
           <EnterFunctionName>
             <BottomSpan>함수 이름</BottomSpan>

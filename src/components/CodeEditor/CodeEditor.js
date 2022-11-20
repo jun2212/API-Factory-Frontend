@@ -3,9 +3,9 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import Editor from "@monaco-editor/react";
 
-import { COLOR, defaultCode } from "../../config/constants";
+import { COLOR } from "../../config/constants";
 
-function CodeEditor({ editorRef, validateRef }) {
+function CodeEditor({ editorRef, validateRef, defaultCode }) {
   function handleEditorDidMount(editor) {
     editorRef.current = editor;
   }
@@ -53,6 +53,7 @@ CodeEditor.propTypes = {
     PropTypes.shape({ current: PropTypes.elementType }),
     PropTypes.object,
   ]),
+  defaultCode: PropTypes.string,
 };
 
 export { CodeEditor };

@@ -99,7 +99,7 @@ const Button = styled.button`
   font-weight: 550;
 
   &:hover {
-    border-bottom: 2px solid black;
+    transform: scale(1.05);
     color: ${COLOR.BLUE};
   }
 `;
