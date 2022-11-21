@@ -60,3 +60,53 @@ export const useValidationUserData = () => {
     validation,
   ];
 };
+
+export const validationCode = () => {
+  const [modalMessage, setModalMessage] = useState({});
+
+  const validation = (code, name, onValidateValues) => {
+    setModalMessage({});
+
+    const indexOfFunctionName = code.indexOf("APIFunction");
+
+    if (
+      indexOfFunctionName === -1 ||
+      (code[indexOfFunctionName + 11] !== " " &&
+        code[indexOfFunctionName + 11] !== "(")
+    ) {
+      setModalMessage({
+        title: "입력 오류",
+        content: "함수 이름은 APIFunction 이어야 합니다.",
+      });
+      return false;
+    }
+
+    if (name === "") {
+      setModalMessage({
+        title: "생성  될 api의 이름을 입력해 주세요",
+        content: "enter your function name",
+      });
+
+      return false;
+    }
+
+    if (onValidateValues !== null && onValidateValues !== 0) {
+      const result = onValidateValues.filter(
+        (markers) => markers.code !== "80001" && markers.code !== "6133",
+      );
+
+      if (result.length !== 0) {
+        setModalMessage({
+          title: `Start Line : ${result[0].startLineNumber}, Start Column : ${result[0].startColumn} `,
+          content: result[0].message,
+        });
+
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  return [modalMessage, setModalMessage, validation];
+};
