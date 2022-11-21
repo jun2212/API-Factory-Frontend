@@ -6,7 +6,7 @@ import { Login } from "../pages/Login/Login";
 import { Register } from "../pages/Register/Register";
 import { Main } from "../pages/Main/Main";
 import { Guide } from "../pages/Guide/Guide";
-import { FunctionList } from "../pages/FunctionList/FunctionList";
+import { APIList } from "../pages/APIList/APIList";
 import { UpdateFunction } from "../pages/UpdateFunction/UpdateFunction";
 import { NotFound } from "../pages/NotFound/NotFound";
 import { Error } from "../pages/Error/Error";
@@ -41,7 +41,7 @@ function App() {
           path="/List"
           element={
             <RequireAuth>
-              <FunctionList />
+              <APIList />
             </RequireAuth>
           }
         />

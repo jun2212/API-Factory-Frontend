@@ -2,29 +2,31 @@ import React, { useRef, useState } from "react";
 import styled from "styled-components";
 
 import { COLOR, defaultCode } from "../../config/constants";
-import { fetchUserData } from "../../utils/utils";
+import { fetchDataUtil } from "../../utils/utils";
+import { validationCode } from "../../customHooks/customHooks";
 
 import { CodeEditor } from "../../components/CodeEditor/CodeEditor";
 import { Modal } from "../../components/Modal/Modal";
 
 function Main() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState({});
   const [SelectedMethod, setSelectedMethod] = useState("GET");
 
   const editorRef = useRef(null);
   const validateRef = useRef(null);
   const functionNameRef = useRef(null);
 
+  const [modalMessage, setModalMessage, validation] = validationCode();
+
   const method = ["GET", "POST", "PUT", "DELETE"];
 
   const submitCode = async () => {
     const code = editorRef.current.getValue();
     const name = functionNameRef.current.value;
-    const isValidated = validation(code, name);
+    const isValidated = validation(code, name, validateRef.current);
 
     if (isValidated) {
-      const { status, message } = await fetchUserData("/functionData", {
+      const { status, message } = await fetchDataUtil("/functionData", "POST", {
         method: SelectedMethod,
         name: name,
         code: code,
@@ -42,50 +44,6 @@ function Main() {
       }
     }
     setIsModalOpen(true);
-  };
-
-  const validation = (code, name) => {
-    setModalMessage({});
-
-    const indexOfFunctionName = code.indexOf("APIFunction");
-
-    if (
-      indexOfFunctionName === -1 ||
-      (code[indexOfFunctionName + 11] !== " " &&
-        code[indexOfFunctionName + 11] !== "(")
-    ) {
-      setModalMessage({
-        title: "입력 오류",
-        content: "함수 이름은 APIFunction 이어야 합니다.",
-      });
-      return false;
-    }
-
-    if (name === "") {
-      setModalMessage({
-        title: "생성  될 api의 이름을 입력해 주세요",
-        content: "enter your function name",
-      });
-
-      return false;
-    }
-
-    if (validateRef.current !== null && validateRef.current.length !== 0) {
-      const result = validateRef.current.filter(
-        (markers) => markers.code !== "80001" && markers.code !== "6133",
-      );
-
-      if (result.length !== 0) {
-        setModalMessage({
-          title: `Start Line : ${result[0].startLineNumber}, Start Column : ${result[0].startColumn} `,
-          content: result[0].message,
-        });
-
-        return false;
-      }
-    }
-
-    return true;
   };
 
   const handleSelect = (event) => {

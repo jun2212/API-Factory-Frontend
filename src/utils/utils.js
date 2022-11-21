@@ -1,27 +1,23 @@
-export const fetchUserData = async (path, bodyParams = {}) => {
-  const response = await fetch(`${process.env.REACT_APP_SERVER_URL}${path}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json;charset=utf-8",
+export const fetchDataUtil = async (path, method, bodyParams = {}) => {
+  const params = {
+    url: `${process.env.REACT_APP_SERVER_URL}${path}`,
+    data: {
+      method: method,
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      credentials: "include",
     },
-    credentials: "include",
-    body: JSON.stringify(bodyParams),
-  });
+  };
+
+  if (method === "POST" || method === "PUT") {
+    params.data.body = JSON.stringify(bodyParams);
+  }
+
+  const response = await fetch(params.url, params.data);
 
   const status = response.status;
   const message = await response.json();
 
   return { status: status, message: message };
-};
-
-export const getFunctions = async () => {
-  const response = await fetch(
-    `${process.env.REACT_APP_SERVER_URL}${"/functionData"}`,
-    {
-      method: "GET",
-      credentials: "include",
-    },
-  );
-
-  return await response.json();
 };

@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { COLOR } from "../../config/constants";
 import { useInput, useValidationUserData } from "../../customHooks/customHooks";
-import { fetchUserData } from "../../utils/utils";
+import { fetchDataUtil } from "../../utils/utils";
 
 function RegisterForm() {
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ function RegisterForm() {
       return;
     }
 
-    const { status, message } = await fetchUserData(pathname, {
+    const { status, message } = await fetchDataUtil(pathname, "POST", {
       userId: userId.value,
       password: password.value,
     });

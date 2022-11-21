@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { COLOR } from "../../config/constants";
-import { fetchUserData } from "../../utils/utils";
+import { fetchDataUtil } from "../../utils/utils";
 
 function NavBar() {
   const navigate = useNavigate();
@@ -21,12 +21,19 @@ function NavBar() {
     navigate("/guide");
   };
 
+  const moveListPage = () => {
+    navigate("/list");
+  };
+
   const moveMainPage = () => {
+    if (pathname === "/login" || pathname === "/register") {
+      return;
+    }
     navigate("/");
   };
 
   const handleLogOut = async () => {
-    const { status, message } = await fetchUserData("/logout");
+    const { status, message } = await fetchDataUtil("/logout", "POST");
     if (status === 200) {
       navigate("/login");
     } else {
@@ -38,24 +45,18 @@ function NavBar() {
 
   return (
     <Wrapper>
-      <Logo>API FACTORY</Logo>
+      <Logo onClick={moveMainPage}>API FACTORY</Logo>
       <ButtonWrapper>
-        {pathname === "/" ? (
-          <>
-            <Button onClick={moveGuidePage}>GUIDE</Button>
-            <Button onClick={handleLogOut}>LOGOUT</Button>
-          </>
-        ) : pathname === "/guide" ? (
-          <>
-            <Button onClick={moveMainPage}>MAIN</Button>
-            <Button onClick={handleLogOut}>LOGOUT</Button>
-          </>
-        ) : pathname === "/login" ? (
+        {pathname === "/login" ? (
           <Button onClick={moveRegisterPage}>REGISTER</Button>
         ) : pathname === "/register" ? (
           <Button onClick={moveLoginPage}>LOGIN</Button>
         ) : (
-          <Button onClick={moveMainPage}>MAIN</Button>
+          <>
+            <Button onClick={moveListPage}>API LIST</Button>
+            <Button onClick={moveGuidePage}>GUIDE</Button>
+            <Button onClick={handleLogOut}>LOGOUT</Button>
+          </>
         )}
       </ButtonWrapper>
     </Wrapper>
@@ -76,6 +77,7 @@ const Logo = styled.span`
   font-size: 1.2rem;
   font-weight: 550;
   margin-left: 6rem;
+  cursor: pointer;
 
   &:hover {
     color: ${COLOR.BLUE};
@@ -89,7 +91,7 @@ const ButtonWrapper = styled.div`
 
 const Button = styled.button`
   padding: 0.3rem;
-  margin: 1rem;
+  margin: 0.6rem;
   border: none;
   border-radius: 0.5rem;
   width: 7rem;
@@ -97,6 +99,7 @@ const Button = styled.button`
   color: ${COLOR.BLACK};
   font-size: 1.2rem;
   font-weight: 550;
+  cursor: pointer;
 
   &:hover {
     transform: scale(1.05);
