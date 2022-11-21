@@ -3,16 +3,24 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
 import { COLOR } from "../../config/constants";
-import { fetchUserData, getFunctions } from "../../utils/utils";
+import { fetchDataUtil } from "../../utils/utils";
 
-function FunctionList() {
+function APIList() {
   const navigate = useNavigate();
 
   const [userFunctions, setUserFunctions] = useState([]);
 
   useEffect(() => {
     (async () => {
-      const { Items } = await getFunctions();
+      const { status, message } = await fetchDataUtil("/functionData", "GET");
+
+      if (status === 400 || status === 500) {
+        return navigate("/error", {
+          state: { status: status, message: message },
+        });
+      }
+
+      const { Items } = message;
       if (Items) {
         setUserFunctions(Items);
       }
@@ -85,4 +93,4 @@ const FunctionTitleList = styled.p`
   }
 `;
 
-export { FunctionList };
+export { APIList };
