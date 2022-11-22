@@ -30,14 +30,6 @@ function App() {
           }
         />
         <Route
-          path="/Guide"
-          element={
-            <RequireAuth>
-              <Guide />
-            </RequireAuth>
-          }
-        />
-        <Route
           path="/List"
           element={
             <RequireAuth>
@@ -55,6 +47,7 @@ function App() {
         />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/Guide" element={<Guide />} />
         <Route path="/error" element={<Error />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>

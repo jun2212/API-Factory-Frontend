@@ -100,7 +100,7 @@ function UpdateFunction() {
               </Option>
             ))}
           </Select>
-          <Tip>{userFunction["name"]}</Tip>
+          <Tip>key : {userFunction["function_key"]}</Tip>
         </TopWrapper>
         <CodeEditor
           editorRef={editorRef}
@@ -109,7 +109,7 @@ function UpdateFunction() {
         />
         <BottomWrapper>
           <EnterFunctionName>
-            <BottomSpan>함수 이름</BottomSpan>
+            <BottomSpan>API 이름</BottomSpan>
             <BottomInput
               ref={functionNameRef}
               defaultValue={userFunction["name"]}

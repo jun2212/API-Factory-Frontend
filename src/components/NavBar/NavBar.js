@@ -48,9 +48,15 @@ function NavBar() {
       <Logo onClick={moveMainPage}>API FACTORY</Logo>
       <ButtonWrapper>
         {pathname === "/login" ? (
-          <Button onClick={moveRegisterPage}>REGISTER</Button>
+          <>
+            <Button onClick={moveGuidePage}>GUIDE</Button>
+            <Button onClick={moveRegisterPage}>REGISTER</Button>
+          </>
         ) : pathname === "/register" ? (
-          <Button onClick={moveLoginPage}>LOGIN</Button>
+          <>
+            <Button onClick={moveGuidePage}>GUIDE</Button>
+            <Button onClick={moveLoginPage}>LOGIN</Button>
+          </>
         ) : (
           <>
             <Button onClick={moveListPage}>API LIST</Button>
