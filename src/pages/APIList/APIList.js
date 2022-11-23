@@ -21,11 +21,13 @@ function APIList() {
       }
 
       const { Items } = message;
+
       if (Items) {
         setUserFunctions(Items);
       }
     })();
   }, []);
+
   return (
     <ContentsWrapper>
       <ListWrapper>

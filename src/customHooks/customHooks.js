@@ -61,7 +61,7 @@ export const useValidationUserData = () => {
   ];
 };
 
-export const validationCode = () => {
+export const useValidationCode = () => {
   const [modalMessage, setModalMessage] = useState({});
 
   const validation = (code, name, onValidateValues) => {
@@ -76,7 +76,7 @@ export const validationCode = () => {
     ) {
       setModalMessage({
         title: "입력 오류",
-        content: "함수 이름은 APIFunction 이어야 합니다.",
+        content: "Function name must be APIFunction",
       });
       return false;
     }

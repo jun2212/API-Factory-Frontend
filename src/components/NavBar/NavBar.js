@@ -29,11 +29,13 @@ function NavBar() {
     if (pathname === "/login" || pathname === "/register") {
       return;
     }
+
     navigate("/");
   };
 
   const handleLogOut = async () => {
     const { status, message } = await fetchDataUtil("/logout", "POST");
+
     if (status === 200) {
       navigate("/login");
     } else {
