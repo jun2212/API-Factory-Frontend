@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { COLOR } from "../../config/constants";
 import { fetchDataUtil } from "../../utils/utils";
-import { validationCode } from "../../customHooks/customHooks";
+import { useValidationCode } from "../../customHooks/customHooks";
 
 import { CodeEditor } from "../../components/CodeEditor/CodeEditor";
 import { Modal } from "../../components/Modal/Modal";
@@ -22,7 +22,7 @@ function UpdateFunction() {
   const validateRef = useRef(null);
   const functionNameRef = useRef(null);
 
-  const [modalMessage, setModalMessage, validation] = validationCode();
+  const [modalMessage, setModalMessage, validation] = useValidationCode();
 
   const method = ["GET", "POST", "PUT", "DELETE"];
 
