@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 
-import { COLOR, defaultCode } from "../../config/constants";
+import { COLOR, DEFAULT_CODE } from "../../config/constants";
 import { fetchDataUtil } from "../../utils/utils";
 import { validationCode } from "../../customHooks/customHooks";
 
@@ -73,11 +73,11 @@ function Main() {
         <CodeEditor
           editorRef={editorRef}
           validateRef={validateRef}
-          defaultCode={defaultCode}
+          defaultCode={DEFAULT_CODE}
         />
         <BottomWrapper>
           <EnterFunctionName>
-            <BottomSpan>함수 이름</BottomSpan>
+            <BottomSpan>API 이름</BottomSpan>
             <BottomInput ref={functionNameRef}></BottomInput>
           </EnterFunctionName>
           <Button onClick={submitCode}>함수 저장</Button>

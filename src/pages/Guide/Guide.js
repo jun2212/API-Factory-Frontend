@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
-import { TableOfContent } from "../../components/TableOfContent/TableOfContent";
+import { TableOfContents } from "../../components/TableOfContents/TableOfContents";
 import { GuideContent } from "../../components/GuideContent/GuideContent";
 
 function Guide() {
+  const [content, setContent] = useState({
+    __html: "",
+  });
+
   return (
     <ContentsWrapper>
-      <TableOfContent />
-      <GuideContent />
+      <TableOfContents setContent={setContent} />
+      <GuideContent content={content} />
     </ContentsWrapper>
   );
 }

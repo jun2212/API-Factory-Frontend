@@ -1,16 +1,14 @@
-import React, { useRef } from "react";
+import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 import { COLOR } from "../../config/constants";
 
-function GuideContent() {
+function GuideContent({ content }) {
   return (
     <ContentWrapper>
       <Content>
-        <h3>사용 가능한 언어</h3>
-        <br />
-        현재 지원되는 언어는 <b>javascript</b>이며 앞으로 더 많은 언어를 지원 할
-        예정입니다.
+        <div dangerouslySetInnerHTML={content} />
       </Content>
     </ContentWrapper>
   );
@@ -26,9 +24,13 @@ const ContentWrapper = styled.div`
   margin-left: 20vw;
 `;
 
-const Content = styled.p`
-  text-align: center;
+const Content = styled.div`
   margin: 3rem;
+  width: 50vw;
 `;
+
+GuideContent.propTypes = {
+  content: PropTypes.object,
+};
 
 export { GuideContent };
