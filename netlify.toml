@@ -6,7 +6,7 @@
 
   [context.production.environment]
   TOML_ENV_VAR = "From netlify.toml"
-  REACT_APP_SERVER_URL = "http://API-Factory-BackEnd.ap-northeast-2.elasticbeanstalk.com"
+  REACT_APP_SERVER_URL = "https://API-Factory-BackEnd.ap-northeast-2.elasticbeanstalk.com"
 
   ## Uncomment to use this redirect for Single Page Applications like create-react-app.
   ## Not needed for static site generators.
