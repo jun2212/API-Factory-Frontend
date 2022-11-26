@@ -17,7 +17,8 @@
 - [기술 스택]
 - [Features]
 - [Challenges]
-- [고민했던 점
+- [고민했던 점]
+- [개선하고 싶은점]
 - [📂 파일 구조]
 
 <br/>
@@ -97,11 +98,53 @@
 <br>
 
 1. 정렬키 (Sort Key)
-   - 정렬키로 해당 사용자의 아이디를 넣게 된다면 사용자가 api를 사용할 때마다 function_key 와 자신의 아이디를 입력해야만 했다. 나는 간편하게 function_key만을 사용해서 api를 사용하도록 만들고 싶었기에 배제하였다.
+   - 정렬키로 해당 사용자의 아이디를 넣게 된다면 사용자가 api를 사용할 때마다 function_key 와 자신의 아이디를 입력해야만 했다. 나는 사용자가 function_key만을 사용해서 간편하게 api를 사용할 수 있도록 해주고 싶었기에 배제하게 되었다.
 2. 스캔 (Scan)
    - 테이블 전체를 뒤져서 찾아오기에 속도나 비용적이 면에서 모두 지양되는 방식이라 배제하게 되었다.
 3. 글로벌 보조 인덱스 (Global Secondary Indexes)
    - 사용자가 만든 api들의 모든 정보가 필요했고, 따라서 테이블의 모든 속성을 보조 인덱스로 프로젝션 해야만 했다. 이는 Scan과 마찬가지로 비용적인 면에선 다소 불리한 면이 있지만 속도에서는 더 나은 성능을 보였고, 셋 중 내가 구현하고자 하는 서비스에 가장 적합하다 판단되어 선택하게 되었다.
+
+<br>
+
+### 사용자의 함수 타임아웃, 메모리제한 설정
+
+<br>
+
+1. 타임아웃
+
+   - 처음 고려했던 옵션은 사용자가 입력한 시간에 따라 vm2 자체에서 지원하는 타임아웃을 이용하려고 하였다. 하지만 sandbox 내부에서 외부 라이브러리를 사용하기 위해서는 VM이 아니라 nodeVM을 사용해야 했고, nodeNM의 단점이 타임아웃을 지원하지 않는 것이었다. 이유를 찾아보니 VM과 달리 nodeVM은 sandbox 내부에서 실행되는게 아니라 실제 node에서 실행되는 듯 했다. 그래서 외부 모듈을 사용할 수 있었던 것이고, 루프에 빠지면 다른 방법으로 멈출 수 없었다.<br>
+     따라서 타임아웃을 거는 방법은 람다 배포시 람다 자체에 타임아웃을 지정하는 것이었는데, 여러 옵션의 타임아웃을 가진 api들을 배포하고 해당 api를 사용자가 골라서 사용하는 방식으로 처리하려고 했다.
+
+2. 메모리 제한
+   - 메모리 제한 부분도 알아본 결과 람다 배포시에 지정해야 하는 사항이었다. 타임아웃이나 메모리 제한 둘 중 하나만 api를 나눔으로서 처리하면 모를까, 둘 다 같은 방식으로 처리하게 되면 api주소가 기하급수적으로 늘어나게 되었다. 결과적으로 람다의 성능이 다양하게 필요할 경우가 응답시간이 다양하게 필요한 경우보다 많을 것이라 판단해 메모리 별로만 api를 나누기로 하였다.
+
+<br>
+
+## 개선하고 싶은점
+
+<br>
+
+### BackEnd
+
+<br>
+
+- 이번 프로잭트에서의 BackEnd(Express)의 역할은 사용자가 입력한 함수 정보를 dynamoDB에 저장/수정/삭제 해주는 것과 로그인 관리다. 사실 이 기능들은 Lambda로도 구현 가능한 부분이지만 이전에 진행한 팀 프로잭트에서도 Express를 사용하지 않았고, 포트폴리오 성격의 프로잭트이기 때문에 Express를 무조건 넣어야 겠다는 생각을 했다. 서비스적인 면으로 봤을때는 올바른 구조가 아닌것 같아서 추후에 모두 Lambda로 교체하고싶다.
+
+<br>
+
+### 로그인 관리
+
+<br>
+
+- 처음엔 로그인도 일관성 있게 Amazon Cognito를 사용하려다가 BackEnd의 불륨을 늘리기 위해서 passport를 사용했다. 하지만 어느정도 완성을 하고 보니 잘못된 판단을 한 것 같았다. session 방식 보다는 JWT token 방식의 로그인이 최근 좀 더 선호되기도 하고 Cognito를 사용했어도 큰 불륨의 차이는 없었을 것 같았다. 아니면 passport를 사용하더라도 passport local이 아니라 쇼셜 로그인을 사용하는게 더 좋지 않았을까 라는 생각이 들었다.
+
+<br>
+
+### 배포
+
+<br>
+
+- FrontEnd와 BackEnd를 각각 다른곳에 배포하면서 여러가지 문제가 발생했었다. 기본적으로 ElasticBeanstalk는 http로 배포가 되기때문에 https로 배포된 FrontEnd와의 통신을 크롬에서 막았다. 그래서 `SSL` 인증서를 받아 BackEnd에 적용을 시켜줬지만 이번엔 도메인 이름이 달라서 BackEnd에서 보내온 쿠키가 적용되지 않았다. 결국 세션의 쿠키 옵션에 sameSite none을 줘서 해결했지만 보안상 좋은 방법이 아닌것 같아 FrontEnd도 aws에 배포하고 `서브 도메인`을 사용하는 방식으로 개선하고 싶다.
 
 <br>
 
@@ -170,23 +213,23 @@
 <summary>BackEnd</summary>
 📦API-Factory-Backend
 
-┣ 📦controller  
- ┃ ┣ 📜functionData.controller.js  
- ┃ ┗ 📜index.controller.js  
- ┣ 📦middleware  
- ┃ ┗ 📜localStrategy.js  
- ┣ 📦routes  
- ┃ ┣ 📜functionData.js  
- ┃ ┗ 📜index.js  
- ┣ 📦services  
- ┃ ┗ 📜index.services.js  
- ┣ 📦utils  
- ┃ ┣ 📜catchAsync.js  
- ┃ ┣ 📜dynamoDbUtil.js  
- ┃ ┗ 📜uuidUtil.js  
- ┣ 📜.eslintrc.js  
- ┣ 📜.prettierrc.js  
- ┗ 📜app.js
+┣ 📦routes  
+┃ ┣ 📂controller  
+┃ ┃ ┣ 📜functionData.controller.js  
+┃ ┃ ┗ 📜index.controller.js  
+┃ ┣ 📂middleware  
+┃ ┃ ┗ 📜localStrategy.js  
+┃ ┣ 📂services  
+┃ ┃ ┗ 📜index.services.js  
+┃ ┣ 📜functionData.js  
+┃ ┗ 📜index.js  
+┣ 📦utils  
+┃ ┣ 📜catchAsync.js  
+┃ ┣ 📜dynamoDbUtil.js  
+┃ ┗ 📜uuidUtil.js  
+┣ 📜.eslintrc.js  
+┣ 📜.prettierrc.js  
+┗ 📜app.js
 
 </details>
 

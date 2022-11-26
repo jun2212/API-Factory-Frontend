@@ -71,11 +71,13 @@ export const GUIDE_CONTENT = [
     TITLE: "API 사용법",
     CONTENT:
       "<h2 style='text-align: center;'>API 사용법</h2><br/><br/>" +
-      "<h3 style='line-height: 1;'><strong>기본 API 주소</strong></h3><br/><br/>" +
-      "<p style='line-height: 0.5;'><strong>https://jh90y6zqei.execute-api.ap-northeast-2.amazonaws.com/apiRunner</strong></p><br/><br/><br/>" +
+      "<h3 style='line-height: 1;'><strong>기본 API 주소 (메모리 제한 : 512m, 1024m, 2048m)</strong></h3><br/><br/>" +
+      "<p style='line-height: 0.5;'><strong>https://jh90y6zqei.execute-api.ap-northeast-2.amazonaws.com/apiRunner512m</strong></p><br/><br/>" +
+      "<p style='line-height: 0.5;'><strong>https://jh90y6zqei.execute-api.ap-northeast-2.amazonaws.com/apiRunner1024m</strong></p><br/><br/>" +
+      "<p style='line-height: 0.5;'><strong>https://jh90y6zqei.execute-api.ap-northeast-2.amazonaws.com/apiRunner2048m</strong></p><br/><br/><br/>" +
       "<h3 style='line-height: 1;'><strong>함수 API 주소</strong></h3><br/><br/>" +
       "<p style='line-height: 0.5;'>query parameter에 key = functionKey , value = 발급받은 functionKey 를 넣어준다.</p><br/>" +
-      "<p style='line-height: 0.5;'>ex) https://jh90y6zqei.execute-api.ap-northeast-2.amazonaws.com/apiRunner?functionKey=abcd1234</p><br/><br/><br/>" +
+      "<p style='line-height: 0.5;'>ex) https://jh90y6zqei.execute-api.ap-northeast-2.amazonaws.com/apiRunner512m?functionKey=abcd1234</p><br/><br/><br/>" +
       "<h3 style='line-height: 1;'><strong>함수의 parameter 값 보내기</strong></h3><br/><br/>" +
       "<p style='line-height: 0.5;'>POST나 PUT 요청시, body에 { 'parameters' : [value1, value2, value3 ...] } 형태로 넣어준다.</p><br/>" +
       "<p style='line-height: 0.5;'>배열 안에는 함수의 파라미터 값이 순서에 맞게 들어있어야 한다.</p>",
