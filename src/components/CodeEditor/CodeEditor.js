@@ -25,6 +25,7 @@ function CodeEditor({ editorRef, validateRef, defaultCode }) {
         theme="vs-dark"
         options={{
           fontSize: 15,
+          tabSize: 2,
           padding: { top: 20 },
           minimap: { enabled: false },
           scrollbar: {
