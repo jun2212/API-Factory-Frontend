@@ -4,6 +4,14 @@
 
 <br/>
 
+## Github Repository
+
+- [Frontend](https://github.com/jun2212/API-Factory-client)
+- [Backend](https://github.com/jun2212/API-Factory-Backend)
+- [Severless Backend](https://github.com/jun2212/API-Factroy-severless-api)
+
+<br/>
+
 ## 프로젝트 기간
 
 - 아이디어 수집 및 칸반 제작 : 2022.11.07 ~ 2022.11.14
