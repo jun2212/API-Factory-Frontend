@@ -191,6 +191,8 @@ Frontend와 Backend의 domain name이 달라서 생긴 이슈를 sameSite: "none
 ┃ ┣ 📂components  
 ┃ ┃ ┣ 📂CodeEditor  
 ┃ ┃ ┃ ┗ 📜CodeEditor.js  
+┃ ┃ ┣ 📂ConfirmModal  
+┃ ┃ ┃ ┗ 📜ConfirmModal.js  
 ┃ ┃ ┣ 📂GuideContent  
 ┃ ┃ ┃ ┗ 📜GuideContent.js  
 ┃ ┃ ┣ 📂LoginForm  
