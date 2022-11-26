@@ -6,9 +6,9 @@
 
 ## Github Repository
 
-- [Frontend](https://github.com/jun2212/API-Factory-client)
+- [Frontend](https://github.com/jun2212/API-Factory-Frontend)
 - [Backend](https://github.com/jun2212/API-Factory-Backend)
-- [Serverless Backend](https://github.com/jun2212/API-Factroy-severless-api)
+- [Serverless Backend](https://github.com/jun2212/API-Factory-Severless-API)
 
 <br/>
 
@@ -21,13 +21,13 @@
 
 ## Contents
 
-- [개발 동기](https://github.com/jun2212/API-Factory-client#개발-동기)
-- [기술 스택](https://github.com/jun2212/API-Factory-client#기술-스택)
-- [Feature](https://github.com/jun2212/API-Factory-client#Feature)
-- [Challenges](https://github.com/jun2212/API-Factory-client#Challenges)
-- [고민했던 점](https://github.com/jun2212/API-Factory-client#고민했던-점)
-- [개선하고 싶은 점](https://github.com/jun2212/API-Factory-client#개선하고-싶은-점)
-- [📂 파일 구조](https://github.com/jun2212/API-Factory-client#-파일-구조)
+- [개발 동기](https://github.com/jun2212/API-Factory-Frontend#개발-동기)
+- [기술 스택](https://github.com/jun2212/API-Factory-Frontend#기술-스택)
+- [Feature](https://github.com/jun2212/API-Factory-Frontend#Feature)
+- [Challenges](https://github.com/jun2212/API-Factory-Frontend#Challenges)
+- [고민했던 점](https://github.com/jun2212/API-Factory-Frontend#고민했던-점)
+- [개선하고 싶은 점](https://github.com/jun2212/API-Factory-Frontend#개선하고-싶은-점)
+- [📂 파일 구조](https://github.com/jun2212/API-Factory-Frontend#-파일-구조)
 
 <br/>
 
@@ -272,7 +272,7 @@ Frontend와 Backend의 domain name이 달라서 생긴 이슈를 sameSite: "none
 
 <details>
 <summary>Serverless API</summary>
-📦API-Factory-serverless-api
+📦API-Factory-Serverless-API
 
 ┣ 📦src  
  ┃ ┣ 📂lib  
