@@ -55,8 +55,9 @@ export const GUIDE_CONTENT = [
     CONTENT:
       "<h2 style='text-align: center;'>고유 라이브러리 사용법</h2><br/><br/>" +
       "<h3 style='line-height: 1;'><strong>generateStorageUrl(key, action, expires)</strong></h3><br/>" +
-      "<p style='line-height: 0.5;'>• key(type String) -> 저장소에 사용할 키 값.</p><br/>" +
-      "<p style='line-height: 0.5;'>• action(type String) -> GET/PUT 설정(GET = getObject, PUT = putObject)</p><br/>" +
+      "<p style='line-height: 0.5;'>• key(type String) -> 저장소에 사용할 파일명이 포함된 경로 값 (ex: 'myAlbum/pets/dog.jpg')</p><br/>" +
+      "<p><small>< 입력한 경로의 마지막 파일명이 저장되는 실제 파일명 입니다(dog.jpg) ></small></p><br/>" +
+      "<p style='line-height: 0.5;'>• action(type String) -> GET/PUT 설정(GET = 'getObject', PUT = 'putObject')</p><br/>" +
       "<p style='line-height: 0.5;'>• expires(type Number) -> URL의 유효기간(초 단위)</p><br/>" +
       "<p style='line-height: 0.5;'>• response -> result : { statusCode, body(url or error message) }</p><br/><br/>" +
       "<h3 style='line-height: 2;'><strong>getDbData(key)</strong></h3><br/>" +
@@ -65,7 +66,7 @@ export const GUIDE_CONTENT = [
       "<h3 style='line-height: 2;'><strong>setDbData(key, data)</strong></h3><br/>" +
       "<p style='line-height: 0.5;'>• key(type String) -> 데이터베이스에 저장 할 데이터의 키 값.</p><br/>" +
       "<p style='line-height: 0.5;'>• data(type Object) -> { key1: value, key2: value ... }</p><br/>" +
-      "<p style='line-height: 0.5;'>• response -> result : { data }</p><br/><br/>",
+      "<p style='line-height: 0.5;'>• response -> result : { data }</p>",
   },
   {
     TITLE: "API 사용법",
