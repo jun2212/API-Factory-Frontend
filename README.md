@@ -13,13 +13,13 @@
 
 ## Contents
 
-- [개발 동기](https://github.com/jun2212/API-Factory-client/blob/dev/README.md#개발-동기)
-- [기술 스택](https://github.com/jun2212/API-Factory-client/blob/dev/README.md#기술-스택)
-- [Feature](https://github.com/jun2212/API-Factory-client/blob/dev/README.md#Feature)
-- [Challenges](https://github.com/jun2212/API-Factory-client/blob/dev/README.md#Challenges)
-- [고민했던 점](https://github.com/jun2212/API-Factory-client/blob/dev/README.md#고민했던-점)
-- [개선하고 싶은점](https://github.com/jun2212/API-Factory-client/blob/dev/README.md#개선하고-싶은-점)
-- [파일 구조](https://github.com/jun2212/API-Factory-client/blob/dev/README.md#파일-구조)
+- [개발 동기](https://github.com/jun2212/API-Factory-client#개발-동기)
+- [기술 스택](https://github.com/jun2212/API-Factory-client#기술-스택)
+- [Feature](https://github.com/jun2212/API-Factory-client#Feature)
+- [Challenges](https://github.com/jun2212/API-Factory-client#Challenges)
+- [고민했던 점](https://github.com/jun2212/API-Factory-client#고민했던-점)
+- [개선하고 싶은점](https://github.com/jun2212/API-Factory-client#개선하고-싶은-점)
+- [📂 파일 구조](https://github.com/jun2212/API-Factory-client#-파일-구조)
 
 <br/>
 
