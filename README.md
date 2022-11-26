@@ -18,7 +18,7 @@
 - [Feature](https://github.com/jun2212/API-Factory-client#Feature)
 - [Challenges](https://github.com/jun2212/API-Factory-client#Challenges)
 - [고민했던 점](https://github.com/jun2212/API-Factory-client#고민했던-점)
-- [개선하고 싶은점](https://github.com/jun2212/API-Factory-client#개선하고-싶은-점)
+- [개선하고 싶은 점](https://github.com/jun2212/API-Factory-client#개선하고-싶은-점)
 - [📂 파일 구조](https://github.com/jun2212/API-Factory-client#-파일-구조)
 
 <br/>
@@ -120,7 +120,7 @@
 
 <br>
 
-## 개선하고 싶은점
+## 개선하고 싶은 점
 
 <br>
 
