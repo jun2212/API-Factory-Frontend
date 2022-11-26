@@ -1,28 +1,37 @@
 import React from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { Portal } from "../Portal";
 import { COLOR } from "../../config/constants";
 
-function Modal({ selectedType, closeModal, title, content }) {
-  const navigate = useNavigate();
-  const handleButton =
-    selectedType === "삭제" ? () => navigate("/list") : closeModal;
+function ConfirmModal({
+  confirmedType,
+  setSelectedType,
+  closeModal,
+  title,
+  content,
+}) {
   return (
     <Portal>
       <Background
         onClick={(event) => {
           if (event.target !== event.currentTarget) return;
 
-          handleButton();
+          closeModal();
         }}
       >
         <Content>
           <Title>{title}</Title>
           <Message>{content}</Message>
-          <CloseButton onClick={handleButton}>확인</CloseButton>
+          <ButtonWrapper>
+            <Button
+              onClick={() => (closeModal(), setSelectedType(confirmedType))}
+            >
+              확인
+            </Button>
+            <Button onClick={closeModal}>취소</Button>
+          </ButtonWrapper>
         </Content>
       </Background>
     </Portal>
@@ -47,11 +56,11 @@ const Content = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  width: 40vw;
-  height: 30vw;
+  width: 25rem;
+  height: 15rem;
   border: none;
   border-radius: 20px;
-  background-color: ${COLOR.WHITE};
+  background-color: ${COLOR.GRAY};
   font-size: 2rem;
   animation: smoothOpen 0.3s;
 
@@ -69,27 +78,31 @@ const Content = styled.div`
 
 const Title = styled.span`
   color: ${COLOR.BLACK};
-  font-size: 2rem;
+  font-size: 1.2rem;
   font-weight: bolder;
-  margin: 5vw;
+  margin: 2rem;
 `;
 
 const Message = styled.span`
   color: ${COLOR.BLACK};
-  font-size: 1.5rem;
-  margin: 3vw;
+  font-size: 1rem;
+  margin: 1.2rem;
 `;
 
-const CloseButton = styled.div`
+const ButtonWrapper = styled.div`
+  display: flex;
+`;
+
+const Button = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 10rem;
-  height: 3rem;
-  margin-top: 5rem;
-  background-color: ${COLOR.RED};
+  width: 5rem;
+  height: 2rem;
+  margin: 1.5rem;
+  background-color: ${COLOR.BLACK};
   border: none;
-  border-radius: 50px;
+  border-radius: 10px;
   color: ${COLOR.WHITE};
   font-size: 1.5rem;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
@@ -103,11 +116,12 @@ const CloseButton = styled.div`
   }
 `;
 
-Modal.propTypes = {
-  selectedType: PropTypes.string,
+ConfirmModal.propTypes = {
+  confirmedType: PropTypes.string,
+  setSelectedType: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,
   title: PropTypes.string,
   content: PropTypes.string,
 };
 
-export { Modal };
+export { ConfirmModal };

@@ -8,6 +8,7 @@ import { useValidationCode } from "../../customHooks/customHooks";
 
 import { CodeEditor } from "../../components/CodeEditor/CodeEditor";
 import { Modal } from "../../components/Modal/Modal";
+import { ConfirmModal } from "../../components/ConfirmModal/ConfirmModal";
 
 function UpdateFunction() {
   const navigate = useNavigate();
@@ -16,7 +17,10 @@ function UpdateFunction() {
   const userFunction = location.state?.userFunction || {};
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [SelectedMethod, setSelectedMethod] = useState(userFunction["method"]);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [selectedMethod, setSelectedMethod] = useState(userFunction["method"]);
+  const [confirmedType, setConfirmedType] = useState("");
+  const [selectedType, setSelectedType] = useState("");
 
   const editorRef = useRef(null);
   const validateRef = useRef(null);
@@ -32,6 +36,15 @@ function UpdateFunction() {
     }
   }, []);
 
+  useEffect(() => {
+    if (selectedType === "수정") {
+      updateFunction();
+    }
+    if (selectedType === "삭제") {
+      deleteFunction();
+    }
+  }, [selectedType]);
+
   const updateFunction = async () => {
     const code = editorRef.current.getValue();
     const name = functionNameRef.current.value;
@@ -40,10 +53,11 @@ function UpdateFunction() {
     if (isValidated) {
       const { status, message } = await fetchDataUtil("/functionData", "PUT", {
         functionKey: userFunction["function_key"],
-        method: SelectedMethod,
+        method: selectedMethod,
         name: name,
         code: code,
       });
+
       if (status === 400 || status === 500) {
         setModalMessage({
           title: `status : ${status}`,
@@ -56,6 +70,8 @@ function UpdateFunction() {
         });
       }
     }
+
+    setSelectedType("");
     setIsModalOpen(true);
   };
 
@@ -64,6 +80,7 @@ function UpdateFunction() {
       `/functionData/${userFunction["function_key"]}`,
       "DELETE",
     );
+
     if (status === 400 || status === 500) {
       setModalMessage({
         title: `status : ${status}`,
@@ -75,7 +92,17 @@ function UpdateFunction() {
         content: message,
       });
     }
+
     setIsModalOpen(true);
+  };
+
+  const handleConfirm = (type) => {
+    setModalMessage({
+      title: `정말 ${type} 하시겠습니까?`,
+      content: "수정/삭제를 하면 이전으로 되돌릴 수 없습니다.",
+    });
+    setConfirmedType(type);
+    setIsConfirmModalOpen(true);
   };
 
   const handleSelect = (event) => {
@@ -86,14 +113,24 @@ function UpdateFunction() {
     <>
       {isModalOpen && (
         <Modal
+          selectedType={selectedType}
           closeModal={() => setIsModalOpen(false)}
+          title={modalMessage.title}
+          content={modalMessage.content}
+        />
+      )}
+      {isConfirmModalOpen && (
+        <ConfirmModal
+          confirmedType={confirmedType}
+          setSelectedType={setSelectedType}
+          closeModal={() => setIsConfirmModalOpen(false)}
           title={modalMessage.title}
           content={modalMessage.content}
         />
       )}
       <ContentsWrapper>
         <TopWrapper>
-          <Select onChange={handleSelect} value={SelectedMethod}>
+          <Select onChange={handleSelect} value={selectedMethod}>
             {method.map((item) => (
               <Option value={item} key={item}>
                 {item}
@@ -115,8 +152,8 @@ function UpdateFunction() {
               defaultValue={userFunction["name"]}
             ></BottomInput>
           </EnterFunctionName>
-          <Button onClick={deleteFunction}>함수 삭제</Button>
-          <Button onClick={updateFunction}>함수 수정</Button>
+          <Button onClick={() => handleConfirm("삭제")}>함수 삭제</Button>
+          <Button onClick={() => handleConfirm("수정")}>함수 수정</Button>
         </BottomWrapper>
       </ContentsWrapper>
     </>
