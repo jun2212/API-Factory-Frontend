@@ -8,7 +8,7 @@
 
 - [Frontend](https://github.com/jun2212/API-Factory-client)
 - [Backend](https://github.com/jun2212/API-Factory-Backend)
-- [Severless Backend](https://github.com/jun2212/API-Factroy-severless-api)
+- [Serverless Backend](https://github.com/jun2212/API-Factroy-severless-api)
 
 <br/>
 
