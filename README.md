@@ -76,6 +76,10 @@
 
 <br/>
 
+[API-Factory 사용설명](https://www.api-factory.live/guide)
+
+<br/>
+
 ## Challenges
 
 <br/>

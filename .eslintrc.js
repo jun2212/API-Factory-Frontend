@@ -3,7 +3,6 @@ module.exports = {
     browser: true,
     es2021: true,
     node: true,
-    jest: true,
   },
   extends: [
     "eslint:recommended",
@@ -24,4 +23,17 @@ module.exports = {
     ],
     "react/react-in-jsx-scope": "off",
   },
+  overrides: [
+    {
+      files: ["**/*.test.js"],
+      env: {
+        jest: true,
+      },
+      plugins: ["jest", "testing-library", "jest-dom/recommended"],
+      rules: {
+        "no-undef": "warn",
+        "jest-dom/prefer-checked": "error",
+      },
+    },
+  ],
 };
