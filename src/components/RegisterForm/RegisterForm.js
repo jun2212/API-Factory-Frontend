@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import { COLOR } from "../../config/constants";
@@ -8,7 +8,6 @@ import { fetchDataUtil } from "../../utils/utils";
 
 function RegisterForm() {
   const navigate = useNavigate();
-  const { pathname } = useLocation();
 
   const userId = useInput("");
   const password = useInput("");
@@ -40,7 +39,7 @@ function RegisterForm() {
       return;
     }
 
-    const { status, message } = await fetchDataUtil(pathname, "POST", {
+    const { status, message } = await fetchDataUtil("/register", "POST", {
       userId: userId.value,
       password: password.value,
     });
