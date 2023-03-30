@@ -6,7 +6,7 @@
 
   [context.production.environment]
   TOML_ENV_VAR = "From netlify.toml"
-  REACT_APP_SERVER_URL = "//eb.api-factory-backend.link/"
+  REACT_APP_SERVER_URL = "//eb.api-factory-backend.link"
 
   ## Uncomment to use this redirect for Single Page Applications like create-react-app.
   ## Not needed for static site generators.
