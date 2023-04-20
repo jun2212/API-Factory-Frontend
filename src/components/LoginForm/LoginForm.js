@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { COLOR } from "../../config/constants";
 import { useInput, useValidationUserData } from "../../customHooks/customHooks";
-import { fetchDataUtil } from "../../utils/utils";
+import { backEndFetchDataUtil } from "../../utils/utils";
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ function LoginForm() {
       return;
     }
 
-    const { status, message } = await fetchDataUtil("/login", "POST", {
+    const { status, message } = await backEndFetchDataUtil("/login", "POST", {
       userId: userId.value,
       password: password.value,
     });

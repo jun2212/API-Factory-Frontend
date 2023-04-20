@@ -1,26 +1,50 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { COLOR } from "../../config/constants";
-import { fetchDataUtil } from "../../utils/utils";
+import {
+  backEndFetchDataUtil,
+  serverlessFetchDataUtil,
+} from "../../utils/utils";
 import { useValidationCode } from "../../customHooks/customHooks";
 
 import { CodeEditor } from "../../components/CodeEditor/CodeEditor";
+import { CodeTester } from "../../components/CodeTester/CodeTester";
 import { Modal } from "../../components/Modal/Modal";
 import { ConfirmModal } from "../../components/ConfirmModal/ConfirmModal";
+import { TesterModal } from "../../components/TesterModal/TesterModal";
 
 function UpdateFunction() {
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const userFunction = location.state?.userFunction || {};
+  const [userFunction, setUserFunction] = useState({});
+  const { functionKey } = useParams();
+
+  useEffect(() => {
+    (async () => {
+      const { message: response } = await backEndFetchDataUtil(
+        `/functionData/${functionKey}`,
+        "GET",
+      );
+
+      if (!response["Item"]) {
+        navigate("/notFound");
+      }
+
+      setUserFunction(response["Item"]);
+      setSelectedMethod(response["Item"]["method"]);
+    })();
+  }, []);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-  const [selectedMethod, setSelectedMethod] = useState(userFunction["method"]);
+  const [isTesterModalOpen, setIsTesterModalOpen] = useState(false);
+  const [selectedMethod, setSelectedMethod] = useState("GET");
+  const [selectedMemory, setSelectedMemory] = useState("512");
   const [confirmedType, setConfirmedType] = useState("");
   const [selectedType, setSelectedType] = useState("");
+  const [parameterValues, setParameterValues] = useState([]);
 
   const editorRef = useRef(null);
   const validateRef = useRef(null);
@@ -29,12 +53,7 @@ function UpdateFunction() {
   const [modalMessage, setModalMessage, validation] = useValidationCode();
 
   const method = ["GET", "POST", "PUT", "DELETE"];
-
-  useEffect(() => {
-    if (!userFunction["code"]) {
-      navigate("/notFound");
-    }
-  }, []);
+  const fetchUrl = `https://jh90y6zqei.execute-api.ap-northeast-2.amazonaws.com/apiRunner${selectedMemory}m?functionKey=${functionKey}`;
 
   useEffect(() => {
     if (selectedType === "수정") {
@@ -51,12 +70,16 @@ function UpdateFunction() {
     const isValidated = validation(code, name, validateRef.current);
 
     if (isValidated) {
-      const { status, message } = await fetchDataUtil("/functionData", "PUT", {
-        functionKey: userFunction["function_key"],
-        method: selectedMethod,
-        name: name,
-        code: code,
-      });
+      const { status, message } = await backEndFetchDataUtil(
+        "/functionData",
+        "PUT",
+        {
+          functionKey: userFunction["function_key"],
+          method: selectedMethod,
+          name: name,
+          code: code,
+        },
+      );
 
       if (status === 400 || status === 500) {
         setModalMessage({
@@ -76,7 +99,7 @@ function UpdateFunction() {
   };
 
   const deleteFunction = async () => {
-    const { status, message } = await fetchDataUtil(
+    const { status, message } = await backEndFetchDataUtil(
       `/functionData/${userFunction["function_key"]}`,
       "DELETE",
     );
@@ -105,8 +128,37 @@ function UpdateFunction() {
     setIsConfirmModalOpen(true);
   };
 
-  const handleSelect = (event) => {
+  const handleSelectMethod = (event) => {
     setSelectedMethod(event.target.value);
+  };
+
+  const transTypeParameters = () => {
+    const parameters = [...parameterValues];
+    const newParameters = [];
+
+    parameters.forEach((parameter) => {
+      const value = new Function("return " + parameter)();
+
+      newParameters.push(value);
+    });
+
+    return newParameters;
+  };
+
+  const startTest = async () => {
+    const newParameters = transTypeParameters();
+    const testerTitle = `${userFunction["name"]} 함수 실행 결과`;
+    const response = await serverlessFetchDataUtil(fetchUrl, selectedMethod, {
+      parameters: newParameters,
+    });
+
+    setModalMessage({
+      title: testerTitle,
+      content: response["result"],
+    });
+
+    setSelectedType("");
+    setIsTesterModalOpen(true);
   };
 
   return (
@@ -128,22 +180,51 @@ function UpdateFunction() {
           content={modalMessage.content}
         />
       )}
-      <ContentsWrapper>
-        <TopWrapper>
-          <Select onChange={handleSelect} value={selectedMethod}>
-            {method.map((item) => (
-              <Option value={item} key={item}>
-                {item}
-              </Option>
-            ))}
-          </Select>
-          <Tip>key : {userFunction["function_key"]}</Tip>
-        </TopWrapper>
-        <CodeEditor
-          editorRef={editorRef}
-          validateRef={validateRef}
-          defaultCode={userFunction["code"]}
+      {isTesterModalOpen && (
+        <TesterModal
+          selectedType={selectedType}
+          closeModal={() => setIsTesterModalOpen(false)}
+          title={modalMessage.title}
+          url={fetchUrl}
+          method={selectedMethod}
+          parameter={parameterValues}
+          result={modalMessage.content}
         />
+      )}
+      <Container>
+        <ContentsWrapper>
+          <EditorWrapper>
+            <EditorTopWrapper>
+              {userFunction["method"] && (
+                <Select
+                  onChange={handleSelectMethod}
+                  defaultValue={userFunction["method"]}
+                >
+                  {method.map((item, index) => (
+                    <Option value={item} key={item + index}>
+                      {item}
+                    </Option>
+                  ))}
+                </Select>
+              )}
+              <Tip>key : {userFunction["function_key"]}</Tip>
+            </EditorTopWrapper>
+            {userFunction["code"] && (
+              <CodeEditor
+                editorRef={editorRef}
+                validateRef={validateRef}
+                defaultCode={userFunction["code"]}
+              />
+            )}
+          </EditorWrapper>
+          <CodeTester
+            selectedMemory={selectedMemory}
+            setSelectedMemory={setSelectedMemory}
+            parameterValues={parameterValues}
+            setParameterValues={setParameterValues}
+            startTest={startTest}
+          />
+        </ContentsWrapper>
         <BottomWrapper>
           <EnterFunctionName>
             <BottomSpan>API 이름</BottomSpan>
@@ -155,12 +236,12 @@ function UpdateFunction() {
           <Button onClick={() => handleConfirm("삭제")}>함수 삭제</Button>
           <Button onClick={() => handleConfirm("수정")}>함수 수정</Button>
         </BottomWrapper>
-      </ContentsWrapper>
+      </Container>
     </>
   );
 }
 
-const ContentsWrapper = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -168,7 +249,18 @@ const ContentsWrapper = styled.div`
   min-height: 90vh;
 `;
 
-const TopWrapper = styled.div`
+const ContentsWrapper = styled.div`
+  display: flex;
+`;
+
+const EditorWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const EditorTopWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   width: 50vw;

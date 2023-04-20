@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { COLOR } from "../../config/constants";
-import { fetchDataUtil } from "../../utils/utils";
+import { backEndFetchDataUtil } from "../../utils/utils";
 
 function NavBar() {
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ function NavBar() {
   };
 
   const handleLogOut = async () => {
-    const { status, message } = await fetchDataUtil("/logout", "POST");
+    const { status, message } = await backEndFetchDataUtil("/logout", "POST");
 
     if (status === 200) {
       navigate("/login");

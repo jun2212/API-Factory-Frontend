@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { COLOR } from "../../config/constants";
 import { useInput, useValidationUserData } from "../../customHooks/customHooks";
-import { fetchDataUtil } from "../../utils/utils";
+import { backEndFetchDataUtil } from "../../utils/utils";
 
 function RegisterForm() {
   const navigate = useNavigate();
@@ -39,10 +39,14 @@ function RegisterForm() {
       return;
     }
 
-    const { status, message } = await fetchDataUtil("/register", "POST", {
-      userId: userId.value,
-      password: password.value,
-    });
+    const { status, message } = await backEndFetchDataUtil(
+      "/register",
+      "POST",
+      {
+        userId: userId.value,
+        password: password.value,
+      },
+    );
 
     if (status === 400) {
       setIdMessage(message);
