@@ -41,7 +41,7 @@ function CodeEditor({ editorRef, validateRef, defaultCode }) {
 const EditorWrapper = styled.div`
   display: flex;
   width: 50vw;
-  margin: 0 15rem;
+  margin: 0;
   background-color: ${COLOR.GRAY};
 `;
 

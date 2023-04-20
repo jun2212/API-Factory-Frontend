@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import styled from "styled-components";
 
 import { COLOR, DEFAULT_CODE } from "../../config/constants";
-import { fetchDataUtil } from "../../utils/utils";
+import { backEndFetchDataUtil } from "../../utils/utils";
 import { useValidationCode } from "../../customHooks/customHooks";
 
 import { CodeEditor } from "../../components/CodeEditor/CodeEditor";
@@ -26,11 +26,15 @@ function Main() {
     const isValidated = validation(code, name, validateRef.current);
 
     if (isValidated) {
-      const { status, message } = await fetchDataUtil("/functionData", "POST", {
-        method: SelectedMethod,
-        name: name,
-        code: code,
-      });
+      const { status, message } = await backEndFetchDataUtil(
+        "/functionData",
+        "POST",
+        {
+          method: SelectedMethod,
+          name: name,
+          code: code,
+        },
+      );
       if (status === 400 || status === 500) {
         setModalMessage({
           title: `status : ${status}`,

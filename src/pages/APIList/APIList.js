@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
 import { COLOR } from "../../config/constants";
-import { fetchDataUtil } from "../../utils/utils";
+import { backEndFetchDataUtil } from "../../utils/utils";
 
 function APIList() {
   const navigate = useNavigate();
@@ -12,7 +12,10 @@ function APIList() {
 
   useEffect(() => {
     (async () => {
-      const { status, message } = await fetchDataUtil("/functionData", "GET");
+      const { status, message } = await backEndFetchDataUtil(
+        "/functionData",
+        "GET",
+      );
 
       if (status === 400 || status === 500) {
         return navigate("/error", {
