@@ -33,7 +33,8 @@ function TesterModal({
             <Message>url : {url}</Message>
             <Message>method : {method}</Message>
             <Message>parameter : {parameter.join()}</Message>
-            <Message>result : {result["result"]}</Message>
+            <Message>result : </Message>
+            <ResultMessage>{result["result"]}</ResultMessage>
           </MessageWrapper>
           <CloseButton onClick={handleButton}>확인</CloseButton>
         </Content>
@@ -60,8 +61,8 @@ const Content = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  width: 50vw;
-  height: 40vw;
+  width: 55vw;
+  height: 45vw;
   border: none;
   border-radius: 20px;
   background-color: ${COLOR.WHITE};
@@ -90,8 +91,7 @@ const Title = styled.span`
 const MessageWrapper = styled.div`
   display: flex;
   width: 40vw;
-  height: 20vw;
-  /* align-items: center; */
+  height: 25vw;
   flex-direction: column;
 `;
 
@@ -99,6 +99,14 @@ const Message = styled.span`
   color: ${COLOR.BLACK};
   font-size: 1.3rem;
   margin: 0.8vw;
+`;
+
+const ResultMessage = styled.span`
+  color: ${COLOR.BLACK};
+  font-size: 1rem;
+  margin: 0.8vw;
+  word-wrap: break-word;
+  overflow-y: scroll;
 `;
 
 const CloseButton = styled.div`
