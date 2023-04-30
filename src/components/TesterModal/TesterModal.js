@@ -34,7 +34,7 @@ function TesterModal({
             <Message>method : {method}</Message>
             <Message>parameter : {parameter.join()}</Message>
             <Message>result : </Message>
-            <ResultMessage>{result["result"]}</ResultMessage>
+            <ResultMessage>{result}</ResultMessage>
           </MessageWrapper>
           <CloseButton onClick={handleButton}>확인</CloseButton>
         </Content>
