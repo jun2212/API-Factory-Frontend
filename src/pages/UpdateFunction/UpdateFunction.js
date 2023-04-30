@@ -188,7 +188,7 @@ function UpdateFunction() {
           url={fetchUrl}
           method={selectedMethod}
           parameter={parameterValues}
-          result={modalMessage.content}
+          result={JSON.stringify(modalMessage.content)}
         />
       )}
       <Container>
